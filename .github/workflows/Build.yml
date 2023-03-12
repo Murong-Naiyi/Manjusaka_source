@@ -1,43 +1,23 @@
-name: build
+name: Build Manjusaka
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2.3.4
+    - uses: actions/checkout@v2
 
-      - name: Cache dependencies
-        uses: actions/cache@v2.1.6
-        with:
-          path: ~/.cache
-          key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
+    - name: Install dependencies
+      run: sudo apt-get install -y cmake
 
-
-      - name: Build for ARM64
-        run: |
-          sudo apt-get update 
-          sudo apt-get install -y g++-aarch64-linux-gnu
-          aarch64-linux-gnu-g++ Manjusaka.cpp -o Manjusaka -pthread 
-
-      - name: Output the executed file
-        run: |
-          ls -al Manjusaka
-          echo '::set-output name=executable::Manjusaka'
-          echo 'Compiled file information:' >> summary.md
-          ls -lh Manjusaka >> summary.md
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2.2.4
-        if: always()
-        with:
-          name: Manjusaka
-          path: ./Manjusaka
+    - name: Configure and build
+      run: |
+        mkdir build
+        cd build
+        cmake ..
+        make
