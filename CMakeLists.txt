@@ -1,9 +1,15 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.14)
 
-project(Manjusaka)
+# 项目信息
+project(turbo-charge)
 
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+# 配置环境
+set(CMAKE_SYSTEM_NAME "Linux")
+set(CMAKE_SYSTEM_PROCESSOR "aarch64")
+
+# 设置编译链接参数
+set(CMAKE_C_FLAGS "-g0 -O0 -W -Wall -Wno-format-truncation -Werror -fvisibility=hidden -flto -fno-omit-frame-pointer -fdata-sections -ffunction-sections")
+set(CMAKE_EXE_LINKER_FLAGS "-g0 -O0 -static -fvisibility=hidden -flto -ffixed-x18 -Wl,-O0,--strip-all,--hash-style=both,--gc-sections,--exclude-libs,ALL")
 
 add_executable(Manjusaka Manjusaka.cpp)
 
