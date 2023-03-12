@@ -30,7 +30,7 @@ jobs:
         run: |
           sudo apt-get update 
           sudo apt-get install -y g++-aarch64-linux-gnu
-          aarch64-linux-gnu-g++ main.cpp -o Manjusaka -pthread 
+          aarch64-linux-gnu-g++ Manjusaka.cpp -o Manjusaka -pthread 
 
       - name: Output the executed file
         run: |
