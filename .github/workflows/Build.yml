@@ -37,5 +37,5 @@ jobs:
       - name: Save artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: built-files
-          path: ./build/
+          name: Manjusaka
+          path: ./build/Manjusaka
