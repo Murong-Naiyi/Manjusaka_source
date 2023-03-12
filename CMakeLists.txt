@@ -5,7 +5,7 @@ project(Manjusaka)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-add_executable(Manjusaka main.cpp)
+add_executable(Manjusaka Manjusaka.cpp)
 
 
 
