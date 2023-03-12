@@ -21,10 +21,6 @@ jobs:
           path: ~/.cache
           key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
 
-      - name: Setup C++ environment
-        uses: actions/setup-cpp@v1
-        with:
-          cpp-version: '17'
 
       - name: Build for ARM64
         run: |
