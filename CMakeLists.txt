@@ -11,7 +11,7 @@ set(CMAKE_SYSTEM_PROCESSOR "aarch64")
 set(CMAKE_C_FLAGS "-g0 -O0 -W -Wall -Wno-format-truncation -Werror -fvisibility=hidden -flto -fno-omit-frame-pointer -fdata-sections -ffunction-sections")
 set(CMAKE_EXE_LINKER_FLAGS "-g0 -O0 -static -fvisibility=hidden -flto -ffixed-x18 -Wl,-O0,--strip-all,--hash-style=both,--gc-sections,--exclude-libs,ALL")
 
-add_executable(Manjusaka ./Source/Manjusaka.cpp)
+add_executable(Manjusaka ./Source/Manjusaka_Monitor.cpp)
 
 
 
