@@ -37,7 +37,7 @@ jobs:
         run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=Release
       - name: Build module
         run: cmake --build ${{github.workspace}}/build --config Release
-     
+     - name: Copy ELF file into module directory
 uses: actions/upload-artifact@main
         with:
           name: Manjusaka
