@@ -21,5 +21,3 @@ jobs:
         cd build
         cmake ..
         make
-
-mv Manjusaka ${GITHUB_WORKSPACE}/summary/
