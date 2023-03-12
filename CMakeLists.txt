@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 
 # 项目信息
-project(turbo-charge)
+project(Manjusaka)
 
 # 配置环境
 set(CMAKE_SYSTEM_NAME "Linux")
