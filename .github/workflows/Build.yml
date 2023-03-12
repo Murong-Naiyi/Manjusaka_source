@@ -35,7 +35,7 @@ jobs:
           make
         
       - name: Save artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2.2.5
         with:
           name: Manjusaka
           path: ./build/Manjusaka
