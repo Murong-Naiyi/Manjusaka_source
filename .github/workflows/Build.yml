@@ -37,8 +37,10 @@ jobs:
         run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=Release
       - name: Build module
         run: cmake --build ${{github.workspace}}/build --config Release
-     - name: Copy ELF file into module directory
-uses: actions/upload-artifact@main
+      - name: Copy ELF file into module directory
+        run: cp -f ${{ github.workspace }}/build/turbo-charge ${{ github.workspace }}/module/common/turbo-charge
+      - name : Zip and upload module
+        uses: actions/upload-artifact@main
         with:
-          name: Manjusaka
+          name: turbo-charge
           path: ${{ github.workspace }}/module/*
