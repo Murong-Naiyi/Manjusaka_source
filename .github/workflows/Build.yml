@@ -15,6 +15,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Clear cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          # 指定需要清除的缓存路径和缓存键
+        run: rm -rf ~/.cache
+        # 使用Linux命令删除缓存
+        
       - name: Checkout
         uses: actions/checkout@main
       - name: Install tools
