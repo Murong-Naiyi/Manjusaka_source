@@ -1,4 +1,4 @@
-name: Manjusaka
+name: Manjusaka_Action
 
 on:
   push:
@@ -38,5 +38,5 @@ jobs:
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: Manjusaka
-          path: ./build/Manjusaka
+          name: Manjusaka_Monitor
+          path: ./build/Manjusaka_Monitor
