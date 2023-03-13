@@ -8,8 +8,9 @@
 // 配置文件路径
 std::string Manjusaka_conf_path = "/data/media/0/Android/Manjusaka/Manjusaka.conf";
 
-void check_loop(std::string Set_Time, std::string Creen_script, std::string Screen_script) {
+void check_loop(std::string Set_Time, std::string Creen_script, std::string Screen_script, std::string Screen_switch) {
     auto check = [&]() {
+        if (Screen_switch != "Y") return; // 当 Screen_switch=N 时，退出函数
         std::string Qiule;
         FILE *fp;
         char buffer[1024];
@@ -37,7 +38,7 @@ void check_loop(std::string Set_Time, std::string Creen_script, std::string Scre
 }
 
 int main() {
-    std::string Set_Time, Creen_script, Screen_script;
+    std::string Set_Time, Creen_script, Screen_script, Screen_switch; // 增加变量 Screen_switch
     {
         std::ifstream infile(Manjusaka_conf_path);
         if (!infile.good()) {
@@ -47,6 +48,8 @@ int main() {
             outfile << "# Author:Manjusaka(酷安@曼珠沙华Y)" << std::endl;
             outfile << "# Group:647299031" << std::endl;
             outfile << "# QQ:898780441" << std::endl;
+            outfile << "# 是否启用屏幕检测功能 Y/N" << std::endl; // 添加注释
+            outfile << "Screen_switch=N" << std::endl; // 初始值为 N，表示不启用
             outfile << "# 设置屏幕关闭多长时间执行" << std::endl;
             outfile << "Set_Time=1" << std::endl;
             outfile << "# 屏幕关闭后执行的脚本" << std::endl;
@@ -65,13 +68,15 @@ int main() {
                 Creen_script = line.substr(line.find("=") + 1);
             } else if (line.find("Screen_script=") != std::string::npos) {
                 Screen_script = line.substr(line.find("=") + 1);
+            } else if (line.find("Screen_switch=") != std::string::npos) { // 读取 Screen_switch
+                Screen_switch = line.substr(line.find("=") + 1);
             }
         }
         fconf.close();
     }
     // 设置配置文件权限为755
     system(("chmod 755 " + Manjusaka_conf_path).c_str());
-    std::thread t(check_loop, Set_Time, Creen_script, Screen_script);
+    std::thread t(check_loop, Set_Time, Creen_script, Screen_script, Screen_switch); // 将 Screen_switch 传给 check_loop
 
     // 减少 CPU 占用率
     std::this_thread::sleep_for(std::chrono::seconds(10));
@@ -80,4 +85,3 @@ int main() {
 
     return 0;
 }
-
