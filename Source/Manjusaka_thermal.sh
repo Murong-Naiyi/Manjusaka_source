@@ -1,11 +1,13 @@
 #!/bin/sh
 
-
-# 获取ksud版本号，并根据版本号设置模块路径
-S=$(/data/adb/ksud -V | awk '/ksud/{gsub("ksud ", ""); print substr($0,1,4)}')
-Module_Path="/data/adb/ksu/modules"
-[ "$S" = "v0.4" ] && Module_Path="/data/adb/modules"
-
+Module_Path="/data/adb/modules"
+       
+   if [[ -f "/data/adb/ksud" ]]; then  
+          S=$(/data/adb/ksud -V | awk '/ksud/{gsub("ksud ", ""); print substr($0,1,4)}')     
+          if [[ "$S" = "v0.3" ]]; then
+            Module_Path="/data/adb/ksu/modules"
+          fi
+   fi
 # 设置相关文件的路径
 thermal_path="$Module_Path/Manjusaka_thermal"
 
@@ -34,7 +36,11 @@ find / \( \
             continue
             ;;
     esac
-    /data/ManjusakaTool/mount --make-slave --rbind --size "$Qiu" "$Manjusaka"
+    if [[ -f "/data/adb/ksud" ]]; then  
+      /data/adb/ksu/bin/busybox mount --make-slave --rbind --size "$Qiu" "$Manjusaka"
+    else
+       $( magisk --path )/.magisk/busybox/mount --make-slave --rbind --size "$Qiu" "$Manjusaka"
+    fi
     chmod 000 "$Manjusaka"
     chown -h adb.adb "$Manjusaka"
 done
