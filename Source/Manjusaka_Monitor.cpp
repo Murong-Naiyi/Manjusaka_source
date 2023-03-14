@@ -72,7 +72,7 @@ int main() {
         std::ifstream infile(Manjusaka_conf_path);
         if (!infile.good()) {
             // 创建默认配置文件
-            mkdir("/data/media/0/Android/Manjusaka/屏幕监听", 0777);
+            mkdir("/data/media/0/Android/Manjusaka/屏幕监听", 0755);
             std::ofstream outfile(Manjusaka_conf_path);
             outfile << "# Author:Manjusaka(酷安@曼珠沙华Y)" << std::endl;
             outfile << "# Group:647299031" << std::endl;
