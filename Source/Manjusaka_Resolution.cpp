@@ -7,8 +7,7 @@
 #include <iomanip>
 #include <chrono> 
 #include <algorithm>
-using namespace std;
-time_t now = time(NULL);
+using namespace std;   
 const string CONFIG_DIR_PATH = "/data/media/0/Android/Manjusaka/自适应分辨率";
 const string CONFIG_FILE_PATH = CONFIG_DIR_PATH + "/Manjusaka_Resolution.conf";
 const string LOG_FILE_PATH = CONFIG_DIR_PATH + "/Manjusaka_Resolution.log";
@@ -22,6 +21,7 @@ ofstream log_f1(LOG_FILE_PATH.c_str());
 string get_default_resolution()
 {
     auto start_time = chrono::high_resolution_clock::now(); // 开始计时
+    auto now = chrono::system_clock::to_time_t(chrono::system_clock::now());
 
     FILE *fp = popen(DEFAULT_RESOLUTION_CMD.c_str(), "r");
     if (fp == NULL)
@@ -45,7 +45,7 @@ string get_default_resolution()
 string get_current_app_name()
 {
     auto start_time = chrono::high_resolution_clock::now(); // 开始计时
-
+    auto now = chrono::system_clock::to_time_t(chrono::system_clock::now());
     FILE *fp = popen(CURRENT_APP_NAME_CMD.c_str(), "r");
     if (fp == NULL)
     {
@@ -68,6 +68,7 @@ string get_current_app_name()
 string get_current_resolution()
 {
     auto start_time = chrono::high_resolution_clock::now(); // 开始计时
+    auto now = chrono::system_clock::to_time_t(chrono::system_clock::now());
 
     string current_res;
     {
@@ -163,7 +164,8 @@ int main()
         if (!kunkun) 
         {
             if (current_res != target_res)
-            {
+            {   
+                auto now = chrono::system_clock::to_time_t(chrono::system_clock::now());
                 prev_res = current_res;
                 string cmd = "wm size " + target_res;
                 system(cmd.c_str());
@@ -181,7 +183,9 @@ int main()
                 if (!prev_res.empty()) // 如果有修改过分辨率
                 {
                     if (current_res != prev_res) // 如果当前分辨率与之前不同，才恢复上一个分辨率
-                    {
+                    {   
+                        auto now = chrono::system_clock::to_time_t(chrono::system_clock::now());
+
                         // 恢复上一个分辨率
                         string cmd = "wm size " + prev_res;
                         system(cmd.c_str());
@@ -193,7 +197,9 @@ int main()
                     prev_res.clear();
                 }
                 else if (current_res != default_res)
-                {
+                {   
+                    auto now = chrono::system_clock::to_time_t(chrono::system_clock::now());
+
                     string cmd = "wm size " + default_res;
                     system(cmd.c_str());
                     log_file << "[" << put_time(localtime(&now), "%Y-%m-%d %H:%M:%S") << "]" << "分辨率已恢复到默认值: " << default_res << endl;
