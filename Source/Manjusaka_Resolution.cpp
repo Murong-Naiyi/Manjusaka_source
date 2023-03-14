@@ -108,7 +108,7 @@ int main()
     string default_res = get_default_resolution();
     string prev_res;
     bool is_restored_default_res = false;
-
+    bool kunkun = false;
     // 如果配置文件不存在，则创建一个示例配置文件
     if (!ifstream(CONFIG_FILE_PATH))
     {
@@ -116,9 +116,9 @@ int main()
         config_file << "# Author:Manjusaka(酷安@曼珠沙华Y)" << std::endl;
         config_file << "# Group:647299031" << std::endl;
         config_file << "# QQ:898780441" << std::endl;
-        config_file << "#格式为 包名 分辨率" << endl;
-        config_file << "#以下为示例" << endl;
-        config_file << "com.tencent.tmgp.sgame " << default_res << endl;
+        config_file << "# 格式为 包名 分辨率" << endl;
+        config_file << "# 以下为示例" << endl;
+        config_file << "com.tencent.tmgp.sgame 1080x2200" << endl;
         config_file << "com.termux 1060x2460" << endl;
         config_file.close();
         chmod(CONFIG_FILE_PATH.c_str(), S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
@@ -159,6 +159,9 @@ int main()
 
         if (found)
         {
+        
+        if (!kunkun) 
+        {
             if (current_res != target_res)
             {
                 prev_res = current_res;
@@ -166,7 +169,10 @@ int main()
                 system(cmd.c_str());
                 log_file << "[" << put_time(localtime(&now), "%Y-%m-%d %H:%M:%S") << "]" << "分辨率已更改为: " << target_res << endl;
                 is_restored_default_res = false;
+                kunkun = true;
             }
+        }    
+            
         }
         else
         {
@@ -181,6 +187,7 @@ int main()
                         system(cmd.c_str());
                         log_file << "[" << put_time(localtime(&now), "%Y-%m-%d %H:%M:%S") << "]" << "分辨率已恢复到: " << prev_res << endl;
                         is_restored_default_res = false;
+                        kunkun = false;
                     }
                     // 清空 prev_res
                     prev_res.clear();
@@ -191,6 +198,7 @@ int main()
                     system(cmd.c_str());
                     log_file << "[" << put_time(localtime(&now), "%Y-%m-%d %H:%M:%S") << "]" << "分辨率已恢复到默认值: " << default_res << endl;
                     is_restored_default_res = true;
+                    kunkun = false;
                 }
             }
         }
