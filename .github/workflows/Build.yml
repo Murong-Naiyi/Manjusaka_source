@@ -38,5 +38,5 @@ jobs:
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: Manjusaka_Monitor
-          path: ./build/Manjusaka_Monitor
+          name: Manjusaka_Resolution
+          path: ./build/Manjusaka_Resolution
