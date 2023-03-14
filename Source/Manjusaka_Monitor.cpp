@@ -7,8 +7,7 @@
 #include <sys/stat.h>
 
 // 配置文件路径
-std::string Manjusaka_conf_path = "/data/media/0/Android/Manjusaka/Manjusaka.conf";
-
+std::string Manjusaka_conf_path = "/data/media/0/Android/Manjusaka/屏幕监听/Manjusaka_Monitor.conf";
 void check_screen(std::string Set_Time, std::string Creen_script, std::string Screen_script, std::string Screen_switch) {
     auto check = [&]() {
         if (Screen_switch != "Y") return; // 当 Screen_switch=N 时，退出函数
@@ -66,7 +65,6 @@ void check_battery(std::string Set_Time_battery, std::string Charge_script, std:
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 }
-
 int main() {
     std::string Set_Time, Creen_script, Screen_script, Screen_switch;
     std::string Set_Time_battery, Charge_script, Poweroff_script, battery_switch; // 添加变量
@@ -74,7 +72,7 @@ int main() {
         std::ifstream infile(Manjusaka_conf_path);
         if (!infile.good()) {
             // 创建默认配置文件
-            mkdir("/data/media/0/Android/Manjusaka", 0777);
+            mkdir("/data/media/0/Android/Manjusaka/屏幕监听", 0777);
             std::ofstream outfile(Manjusaka_conf_path);
             outfile << "# Author:Manjusaka(酷安@曼珠沙华Y)" << std::endl;
             outfile << "# Group:647299031" << std::endl;
