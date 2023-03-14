@@ -3,10 +3,10 @@ name: Manjusaka_Action
 on:
   push:
     branches:
-      - 'Action'
+      - 'main'
   pull_request:
     branches:
-      - 'Action'
+      - 'main'
 
 env:
   GCC_CLONE_PATH: "${{ github.workspace }}/aarch64-linux-musl-gcc"
