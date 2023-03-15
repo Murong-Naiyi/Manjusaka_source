@@ -16,9 +16,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Clear repo
-        run: |
-          git clean -xdf && git reset --hard
       - name: Checkout
         uses: actions/checkout@main
       - name: Install tools
