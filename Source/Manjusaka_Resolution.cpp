@@ -12,10 +12,6 @@ const string CONFIG_DIR_PATH = "/data/media/0/Android/Manjusaka/自适应分辨�
 const string CONFIG_FILE_PATH = CONFIG_DIR_PATH + "/Manjusaka_Resolution.conf";
 const string LOG_FILE_PATH = CONFIG_DIR_PATH + "/Manjusaka_Resolution.log";
 const string DEFAULT_RESOLUTION_CMD = "wm size | grep Physical | cut -d ':' -f2 | xargs echo";
-const string CONFIG_DIR_PATH = "/data/media/0/Android/Manjusaka/自适应分辨率";
-const string CONFIG_FILE_PATH = CONFIG_DIR_PATH + "/Manjusaka_Resolution.conf";
-const string LOG_FILE_PATH = CONFIG_DIR_PATH + "/Manjusaka_Resolution.log";
-const string DEFAULT_RESOLUTION_CMD = "wm size | grep Physical | cut -d ':' -f2 | xargs echo";
 const string CURRENT_APP_NAME_CMD = "am stack list|awk '/taskId/&&!/unknown/{print$2}'| awk -F: 'NR==1'|awk -F '/' '{print $1}'";
 const string CURRENT_RESOLUTION_CMD_1 = "wm size | grep Physical | cut -d ':' -f2 | xargs echo";
 const string CURRENT_RESOLUTION_CMD_2 = "wm size | grep Override | cut -d ':' -f2 | xargs echo";
