@@ -24,17 +24,18 @@ string get_default_resolution()
     FILE *fp = popen(DEFAULT_RESOLUTION_CMD.c_str(), "r");
     if (fp == NULL)
     {
-        auto kuncai = std::chrono::system_clock::now();
-    auto time_point = std::chrono::system_clock::to_time_t(kuncai);
-    std::tm tm = *std::localtime(&time_point);
+        std::string date_str = "";
+    if (FILE *fp = popen("date +\"%Y-%m-%d %H:%M:%S\"", "r")) {
+        if (char buf[1024]; fgets(buf, sizeof(buf), fp)) {
+            date_str = buf;
+        }
+        pclose(fp);
+    }
 
-    // 设置 timezone
-    std::string tz = "Asia/Shanghai";
-    setenv("TZ", tz.c_str(), 1);
-    tzset();
 
+    date_str.erase(date_str.find_last_not_of(" \n\r\t")+1);
         
-        log_f1 << "[" << std::put_time(&tm, "%Y-%m-%d %H:%M:%S") << "]" << "无法获取默认分辨率。" << std::endl;
+        log_f1 << "[" << date_str << "]" << "无法获取默认分辨率。" << std::endl;
         exit(1);
     }
     char buf[128] = {0};
@@ -57,17 +58,18 @@ string get_current_app_name()
     FILE *fp = popen(CURRENT_APP_NAME_CMD.c_str(), "r");
     if (fp == NULL)
     {
-        auto kuncai = std::chrono::system_clock::now();
-    auto time_point = std::chrono::system_clock::to_time_t(kuncai);
-    std::tm tm = *std::localtime(&time_point);
+        std::string date_str = "";
+    if (FILE *fp = popen("date +\"%Y-%m-%d %H:%M:%S\"", "r")) {
+        if (char buf[1024]; fgets(buf, sizeof(buf), fp)) {
+            date_str = buf;
+        }
+        pclose(fp);
+    }
 
-    // 设置 timezone
-    std::string tz = "Asia/Shanghai";
-    setenv("TZ", tz.c_str(), 1);
-    tzset();
 
+        date_str.erase(date_str.find_last_not_of(" \n\r\t")+1);
         
-        log_f1 << "[" << std::put_time(&tm, "%Y-%m-%d %H:%M:%S") << "]" << "无法获取当前应用程序名称。" << std::endl;
+        log_f1 << "[" << date_str << "]" << "无法获取当前应用程序名称。" << std::endl;
         exit(1);
     }
     char buf[128] = {0};
@@ -188,17 +190,17 @@ int main()
                 prev_res = current_res;
                 string cmd = "wm size " + target_res;
                 system(cmd.c_str());
-                auto kuncai = std::chrono::system_clock::now();
-    auto time_point = std::chrono::system_clock::to_time_t(kuncai);
-    std::tm tm = *std::localtime(&time_point);
+                std::string date_str = "";
+    if (FILE *fp = popen("date +\"%Y-%m-%d %H:%M:%S\"", "r")) {
+        if (char buf[1024]; fgets(buf, sizeof(buf), fp)) {
+            date_str = buf;
+        }
+        pclose(fp);
+    }
 
-    // 设置 timezone
-    std::string tz = "Asia/Shanghai";
-    setenv("TZ", tz.c_str(), 1);
-    tzset();
 
-        
-       log_file << "[" << std::put_time(&tm, "%Y-%m-%d %H:%M:%S") << "]" << "分辨率已更改为: " << target_res << std::endl;
+        date_str.erase(date_str.find_last_not_of(" \n\r\t")+1);
+       log_file << "[" << date_str << "]" << "分辨率已更改为: " << target_res << std::endl;
                 is_restored_default_res = false;
                 kunkun = true;
             }
@@ -218,17 +220,17 @@ int main()
                         // 恢复上一个分辨率
                         string cmd = "wm size " + prev_res;
                         system(cmd.c_str());
-                        auto kuncai = std::chrono::system_clock::now();
-    auto time_point = std::chrono::system_clock::to_time_t(kuncai);
-    std::tm tm = *std::localtime(&time_point);
+                        std::string date_str = "";
+    if (FILE *fp = popen("date +\"%Y-%m-%d %H:%M:%S\"", "r")) {
+        if (char buf[1024]; fgets(buf, sizeof(buf), fp)) {
+            date_str = buf;
+        }
+        pclose(fp);
+    }
 
-    // 设置 timezone
-    std::string tz = "Asia/Shanghai";
-    setenv("TZ", tz.c_str(), 1);
-    tzset();
 
-        
-       log_file << "[" << std::put_time(&tm, "%Y-%m-%d %H:%M:%S") << "]" << "分辨率已恢复到: " << prev_res << std::endl;
+        date_str.erase(date_str.find_last_not_of(" \n\r\t")+1);
+       log_file << "[" << date_str << "]" << "分辨率已恢复到: " << prev_res << std::endl;
                         is_restored_default_res = false;
                         kunkun = false;
                     }
@@ -241,17 +243,17 @@ int main()
 
                     string cmd = "wm size " + default_res;
                     system(cmd.c_str());
-                    auto kuncai = std::chrono::system_clock::now();
-    auto time_point = std::chrono::system_clock::to_time_t(kuncai);
-    std::tm tm = *std::localtime(&time_point);
+                    std::string date_str = "";
+    if (FILE *fp = popen("date +\"%Y-%m-%d %H:%M:%S\"", "r")) {
+        if (char buf[1024]; fgets(buf, sizeof(buf), fp)) {
+            date_str = buf;
+        }
+        pclose(fp);
+    }
 
-    // 设置 timezone
-    std::string tz = "Asia/Shanghai";
-    setenv("TZ", tz.c_str(), 1);
-    tzset();
 
-        
-       log_file << "[" << std::put_time(&tm, "%Y-%m-%d %H:%M:%S") << "]" << "分辨率已恢复到默认值: " << default_res << std::endl;
+        date_str.erase(date_str.find_last_not_of(" \n\r\t")+1);
+       log_file << "[" << date_str << "]" << "分辨率已恢复到默认值: " << default_res << std::endl;
                     is_restored_default_res = true;
                     kunkun = false;
                 }
@@ -260,10 +262,4 @@ int main()
 
         auto loop_end_time = chrono::high_resolution_clock::now(); // 记录每次循环结束的时间
         auto loop_time_diff = chrono::duration_cast<chrono::microseconds>(loop_end_time - loop_start_time);
-     int sleep_time = std::max<long long>(1000000 - loop_time_diff.count(), 0);
-        usleep(sleep_time); // 微秒级别的休眠
-    }
-
-    log_file.close();
-    return 0;
-}
+     int sleep_time = std::ma
