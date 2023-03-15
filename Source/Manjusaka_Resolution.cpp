@@ -104,7 +104,7 @@ int main()
         }
     }
     ofstream log_file(LOG_FILE_PATH.c_str());
-    chmod(LOG_FILE_PATH.c_str(), S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
+    chmod(LOG_FILE_PATH.c_str(), S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 
     string default_res = get_default_resolution();
     string prev_res;
@@ -122,7 +122,8 @@ int main()
         config_file << "com.tencent.tmgp.sgame 1080x2200" << endl;
         config_file << "com.termux 1060x2460" << endl;
         config_file.close();
-        chmod(CONFIG_FILE_PATH.c_str(), S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
+        chmod(CONFIG_FILE_PATH.c_str(), S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+
     }
 
     while (true)
