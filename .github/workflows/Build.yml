@@ -23,10 +23,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ssh git cmake
           sudo apt-get install -y default-jdk
-      - name: Set timezone
+      - name: Set the timezone to Shanghai
         run: |
-          sudo ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-          echo "Asia/Shanghai" | sudo tee /etc/timezone
+          sudo cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+          sudo echo "Asia/Shanghai" > /etc/timezone
       - name: Clone aarch64-linux-musl-gcc
         run: git clone https://github.com/chase535/aarch64-linux-musl-gcc.git ${GCC_CLONE_PATH} -b main --depth=1
       - name: Set C and C++ compiler
