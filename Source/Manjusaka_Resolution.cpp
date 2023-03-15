@@ -262,4 +262,11 @@ int main()
 
         auto loop_end_time = chrono::high_resolution_clock::now(); // 记录每次循环结束的时间
         auto loop_time_diff = chrono::duration_cast<chrono::microseconds>(loop_end_time - loop_start_time);
-     int sleep_time = std::ma
+     int sleep_time = std::max<long long>(1000000 - loop_time_diff.count(), 0);
+        usleep(sleep_time); // 微秒级别的休眠
+    }
+
+    log_file.close();
+    return 0;
+}
+
