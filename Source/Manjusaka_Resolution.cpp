@@ -21,12 +21,13 @@ ofstream log_f1(LOG_FILE_PATH.c_str());
 string get_default_resolution()
 {
     auto start_time = chrono::high_resolution_clock::now(); // 开始计时
-    auto now = chrono::system_clock::to_time_t(chrono::system_clock::now());
-
     FILE *fp = popen(DEFAULT_RESOLUTION_CMD.c_str(), "r");
     if (fp == NULL)
     {
-        log_f1 << "[" << put_time(localtime(&now), "%Y-%m-%d %H:%M:%S") << "]" << "无法获取默认分辨率。" << endl;
+        auto current_time = std::chrono::system_clock::now();
+        std::time_t current_time_c = std::chrono::system_clock::to_time_t(current_time);
+        
+        log_f1 << "[" << std::put_time(std::localtime(&current_time_c), "%Y-%m-%d %H:%M:%S") << "]" << "无法获取默认分辨率。" << std::endl;
         exit(1);
     }
     char buf[128] = {0};
@@ -49,7 +50,10 @@ string get_current_app_name()
     FILE *fp = popen(CURRENT_APP_NAME_CMD.c_str(), "r");
     if (fp == NULL)
     {
-        log_f1 << "[" << put_time(localtime(&now), "%Y-%m-%d %H:%M:%S") << "]" << "无法获取当前应用程序名称。" << endl;
+        auto current_time = std::chrono::system_clock::now();
+        std::time_t current_time_c = std::chrono::system_clock::to_time_t(current_time);
+        
+        log_f1 << "[" << std::put_time(std::localtime(&current_time_c), "%Y-%m-%d %H:%M:%S") << "]" << "无法获取当前应用程序名称。" << std::endl;
         exit(1);
     }
     char buf[128] = {0};
@@ -170,7 +174,10 @@ int main()
                 prev_res = current_res;
                 string cmd = "wm size " + target_res;
                 system(cmd.c_str());
-                log_file << "[" << put_time(localtime(&now), "%Y-%m-%d %H:%M:%S") << "]" << "分辨率已更改为: " << target_res << endl;
+                auto current_time = std::chrono::system_clock::now();
+        std::time_t current_time_c = std::chrono::system_clock::to_time_t(current_time);
+        
+       log_file << "[" << std::put_time(std::localtime(&current_time_c), "%Y-%m-%d %H:%M:%S") << "]" << "分辨率已更改为: " << target_res << std::endl;
                 is_restored_default_res = false;
                 kunkun = true;
             }
@@ -190,7 +197,10 @@ int main()
                         // 恢复上一个分辨率
                         string cmd = "wm size " + prev_res;
                         system(cmd.c_str());
-                        log_file << "[" << put_time(localtime(&now), "%Y-%m-%d %H:%M:%S") << "]" << "分辨率已恢复到: " << prev_res << endl;
+                        auto current_time = std::chrono::system_clock::now();
+        std::time_t current_time_c = std::chrono::system_clock::to_time_t(current_time);
+        
+       log_file << "[" << std::put_time(std::localtime(&current_time_c), "%Y-%m-%d %H:%M:%S") << "]" << "分辨率已恢复到: " << prev_res << std::endl;
                         is_restored_default_res = false;
                         kunkun = false;
                     }
@@ -203,7 +213,10 @@ int main()
 
                     string cmd = "wm size " + default_res;
                     system(cmd.c_str());
-                    log_file << "[" << put_time(localtime(&now), "%Y-%m-%d %H:%M:%S") << "]" << "分辨率已恢复到默认值: " << default_res << endl;
+                    auto current_time = std::chrono::system_clock::now();
+        std::time_t current_time_c = std::chrono::system_clock::to_time_t(current_time);
+        
+       log_file << "[" << std::put_time(std::localtime(&current_time_c), "%Y-%m-%d %H:%M:%S") << "]" << "分辨率已恢复到默认值: " << default_res << std::endl;
                     is_restored_default_res = true;
                     kunkun = false;
                 }
