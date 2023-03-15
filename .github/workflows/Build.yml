@@ -9,14 +9,16 @@ on:
       - 'main'
 
 env:
+  TZ: Asia/Shanghai
   GCC_CLONE_PATH: "${{ github.workspace }}/aarch64-linux-musl-gcc"
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      TZ: Asia/Shanghai
     steps:
+      - name: Clear repo
+        run: |
+          git clean -xdf && git reset --hard
       - name: Checkout
         uses: actions/checkout@main
       - name: Install tools
@@ -24,6 +26,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ssh git cmake
           sudo apt-get install -y default-jdk
+      - name: Set timezone
+        run: |
+          sudo ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+          echo "Asia/Shanghai" | sudo tee /etc/timezone
       - name: Clone aarch64-linux-musl-gcc
         run: git clone https://github.com/chase535/aarch64-linux-musl-gcc.git ${GCC_CLONE_PATH} -b main --depth=1
       - name: Set C and C++ compiler
@@ -34,9 +40,9 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake ..
+          cmake -DTZ="Asia/Shanghai" ..
           make
-        
+
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:
