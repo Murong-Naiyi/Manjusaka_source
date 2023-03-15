@@ -16,7 +16,6 @@ const string CURRENT_APP_NAME_CMD = "dumpsys activity | grep mResumedActivity | 
 const string CURRENT_APP_NAME_CMD2 = "am stack list|awk '/taskId/&&!/unknown/{print$2}'| awk -F: 'NR==1'|awk -F '/' '{print $1}'";
 const string CURRENT_RESOLUTION_CMD_1 = "wm size | grep Physical | cut -d ':' -f2 | xargs echo";
 const string CURRENT_RESOLUTION_CMD_2 = "wm size | grep Override | cut -d ':' -f2 | xargs echo";
-ofstream log_f1(LOG_FILE_PATH.c_str());
 
 // 获取默认分辨率
 string get_default_resolution() {
@@ -30,9 +29,9 @@ string get_default_resolution() {
             }
             pclose(fp);
         }
-
+ ofstream log_file(LOG_FILE_PATH.c_str());
         date_str.erase(date_str.find_last_not_of(" \n\r\t")+1);
-        LOG_FILE_PATH << "[" << date_str << "]" << "无法获取默认分辨率。" << std::endl;
+        log_file << "[" << date_str << "]" << "无法获取默认分辨率。" << std::endl;
         exit(1);
     }
     char buf[128] = {0};
@@ -62,9 +61,9 @@ string get_current_app_name() {
                 }
                 pclose(fp);
             }
-
+ofstream log_file(LOG_FILE_PATH.c_str());
             date_str.erase(date_str.find_last_not_of(" \n\r\t")+1);
-            LOG_FILE_PATH << "[" << date_str << "]" << "无法获取当前应用程序名称。" << std::endl;
+            log_file << "[" << date_str << "]" << "无法获取当前应用程序名称。" << std::endl;
             exit(1);
         } else {
             char buf[128] = {0};
