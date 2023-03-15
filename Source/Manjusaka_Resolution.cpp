@@ -12,30 +12,27 @@ const string CONFIG_DIR_PATH = "/data/media/0/Android/Manjusaka/自适应分辨�
 const string CONFIG_FILE_PATH = CONFIG_DIR_PATH + "/Manjusaka_Resolution.conf";
 const string LOG_FILE_PATH = CONFIG_DIR_PATH + "/Manjusaka_Resolution.log";
 const string DEFAULT_RESOLUTION_CMD = "wm size | grep Physical | cut -d ':' -f2 | xargs echo";
-const string CURRENT_APP_NAME_CMD = "dumpsys activity | grep mResume | cut -d '/' -f1 | awk -F' ' '{print $4}'";
+const string CURRENT_APP_NAME_CMD = "dumpsys activity | grep mResumedActivity | sed 's|/.*||' | awk -F'[[:space:]:]+' '{print $NF}'";
+const string CURRENT_APP_NAME_CMD2 = "am stack list|awk '/taskId/&&!/unknown/{print$2}'| awk -F: 'NR==1'|awk -F '/' '{print $1}'";
 const string CURRENT_RESOLUTION_CMD_1 = "wm size | grep Physical | cut -d ':' -f2 | xargs echo";
 const string CURRENT_RESOLUTION_CMD_2 = "wm size | grep Override | cut -d ':' -f2 | xargs echo";
 ofstream log_f1(LOG_FILE_PATH.c_str());
 
 // 获取默认分辨率
-string get_default_resolution()
-{
+string get_default_resolution() {
     auto start_time = chrono::high_resolution_clock::now(); // 开始计时
-    FILE *fp = popen(DEFAULT_RESOLUTION_CMD.c_str(), "r");
-    if (fp == NULL)
-    {
+    FILE* fp = popen(DEFAULT_RESOLUTION_CMD.c_str(), "r");
+    if (fp == NULL) {
         std::string date_str = "";
-    if (FILE *fp = popen("date +\"%Y-%m-%d %H:%M:%S\"", "r")) {
-        if (char buf[1024]; fgets(buf, sizeof(buf), fp)) {
-            date_str = buf;
+        if (FILE* fp = popen("date +\"%Y-%m-%d %H:%M:%S\"", "r")) {
+            if (char buf[1024]; fgets(buf, sizeof(buf), fp)) {
+                date_str = buf;
+            }
+            pclose(fp);
         }
-        pclose(fp);
-    }
 
-
-    date_str.erase(date_str.find_last_not_of(" \n\r\t")+1);
-        
-        log_f1 << "[" << date_str << "]" << "无法获取默认分辨率。" << std::endl;
+        date_str.erase(date_str.find_last_not_of(" \n\r\t")+1);
+        LOG_FILE_PATH << "[" << date_str << "]" << "无法获取默认分辨率。" << std::endl;
         exit(1);
     }
     char buf[128] = {0};
@@ -51,37 +48,48 @@ string get_default_resolution()
 }
 
 // 获取当前应用程序名称
-string get_current_app_name()
-{
+string get_current_app_name() {
     auto start_time = chrono::high_resolution_clock::now(); // 开始计时
     auto now = chrono::system_clock::to_time_t(chrono::system_clock::now());
-    FILE *fp = popen(CURRENT_APP_NAME_CMD.c_str(), "r");
-    if (fp == NULL)
-    {
-        std::string date_str = "";
-    if (FILE *fp = popen("date +\"%Y-%m-%d %H:%M:%S\"", "r")) {
-        if (char buf[1024]; fgets(buf, sizeof(buf), fp)) {
-            date_str = buf;
+    FILE* fp = popen(CURRENT_APP_NAME_CMD.c_str(), "r");
+    if (fp == NULL) {
+        FILE* fp2 = popen(CURRENT_APP_NAME_CMD2.c_str(), "r");
+        if (fp2 == NULL) {
+            std::string date_str = "";
+            if (FILE* fp = popen("date +\"%Y-%m-%d %H:%M:%S\"", "r")) {
+                if (char buf[1024]; fgets(buf, sizeof(buf), fp)) {
+                    date_str = buf;
+                }
+                pclose(fp);
+            }
+
+            date_str.erase(date_str.find_last_not_of(" \n\r\t")+1);
+            LOG_FILE_PATH << "[" << date_str << "]" << "无法获取当前应用程序名称。" << std::endl;
+            exit(1);
+        } else {
+            char buf[128] = {0};
+            fgets(buf, sizeof(buf), fp2);
+            pclose(fp2);
+
+            string app_name = string(buf);
+            app_name.erase(app_name.find_last_not_of("\n") + 1);
+
+            auto end_time = chrono::high_resolution_clock::now(); // 结束计时
+            auto time_diff = chrono::duration_cast<chrono::microseconds>(end_time - start_time);
+            return app_name;
         }
+    } else {
+        char buf[128] = {0};
+        fgets(buf, sizeof(buf), fp);
         pclose(fp);
+
+        string app_name = string(buf);
+        app_name.erase(app_name.find_last_not_of("\n") + 1);
+
+        auto end_time = chrono::high_resolution_clock::now(); // 结束计时
+        auto time_diff = chrono::duration_cast<chrono::microseconds>(end_time - start_time);
+        return app_name;
     }
-
-
-        date_str.erase(date_str.find_last_not_of(" \n\r\t")+1);
-        
-        log_f1 << "[" << date_str << "]" << "无法获取当前应用程序名称。" << std::endl;
-        exit(1);
-    }
-    char buf[128] = {0};
-    fgets(buf, sizeof(buf), fp);
-    pclose(fp);
-
-    string app_name = string(buf);
-    app_name.erase(app_name.find_last_not_of("\n") + 1);
-
-    auto end_time = chrono::high_resolution_clock::now(); // 结束计时
-    auto time_diff = chrono::duration_cast<chrono::microseconds>(end_time - start_time);
-    return app_name;
 }
 
 // 获取当前分辨率
