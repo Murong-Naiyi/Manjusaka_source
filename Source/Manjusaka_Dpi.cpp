@@ -138,8 +138,8 @@ int main()
         config_file << "# QQ:898780441" << std::endl;
         config_file << "# 格式为 包名 Dpi" << endl;
         config_file << "# 以下为示例" << endl;
-        config_file << "com.tencent.tmgp.sgame 1080x2200" << endl;
-        config_file << "com.termux 1060x2460" << endl;
+        config_file << "com.tencent.tmgp.sgame 400" << endl;
+        config_file << "com.termux 310" << endl;
         config_file.close();
         chmod(CONFIG_FILE_PATH.c_str(), S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 
