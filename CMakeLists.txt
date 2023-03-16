@@ -13,6 +13,6 @@ execute_process(COMMAND echo ${TZ} > /etc/timezone)
 set(CMAKE_C_FLAGS "-g0 -O0 -W -Wall -Wno-format-truncation -Werror -fvisibility=hidden -flto -fno-omit-frame-pointer -fdata-sections -ffunction-sections")
 set(CMAKE_EXE_LINKER_FLAGS "-g0 -O0 -static -fvisibility=hidden -flto -ffixed-x18 -Wl,-O0,--strip-all,--hash-style=both,--gc-sections,--exclude-libs,ALL")
 
-add_executable(Manjusaka_Resolution ./Source/Manjusaka_Resolution.cpp)
+add_executable(Manjusaka_Resolution ./Source/Manjusaka_Dpi.cpp)
 
 target_link_libraries(Manjusaka_Resolution PRIVATE pthread)
