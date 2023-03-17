@@ -72,27 +72,15 @@ int main() {
         std::ifstream infile(Manjusaka_conf_path);
         if (!infile.good()) {
             // 创建默认配置文件
-            mkdir("/data/media/0/Android/Manjusaka/屏幕监听", 0755);
             std::ofstream outfile(Manjusaka_conf_path);
-            outfile << "# Author:Manjusaka(酷安@曼珠沙华Y)" << std::endl;
-            outfile << "# Group:647299031" << std::endl;
-            outfile << "# QQ:898780441" << std::endl;
-            outfile << "# 是否启用屏幕检测功能 Y/N " << std::endl;
-            outfile << "Screen_switch=N" << std::endl;
-            outfile << "# 设置屏幕息屏后多长时间执行" << std::endl;
-            outfile << "Set_Time=1" << std::endl;
-            outfile << "# 屏幕关闭后执行的脚本" << std::endl;
-            outfile << "Creen_script=/data/off.sh" << std::endl;
-            outfile << "# 屏幕开启后执行的脚本" << std::endl;
-            outfile << "Screen_script=/data/on.sh" << std::endl;
-            outfile << "# 是否启用电池检测功能 Y/N " << std::endl; // 添加电池检测相关配置项
+            outfile << "Screen_switch=Y" << std::endl;
+            outfile << "Set_Time=10" << std::endl;
+            outfile << "Creen_script=./doze.cblg" << std::endl;
+            outfile << "Screen_script=./undoze.cblg" << std::endl;
             outfile << "battery_switch=N" << std::endl;
-            outfile << "# 设置充电后多长时间执行" << std::endl;
             outfile << "Set_Time_battery=1" << std::endl;
-            outfile << "# 充电时执行的脚本" << std::endl;
-            outfile << "Charge_script=/data/charge.sh" << std::endl;
-            outfile << "# 断电时执行的脚本" << std::endl;
-            outfile << "Poweroff_script=/data/poweroff.sh" << std::endl;
+            outfile << "Charge_script=/dev/null" << std::endl;
+            outfile << "Poweroff_script=/dev/null" << std::endl;
             outfile.close();
         }
 
