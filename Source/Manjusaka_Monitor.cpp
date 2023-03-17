@@ -7,7 +7,7 @@
 #include <sys/stat.h>
 
 // 配置文件路径
-std::string Manjusaka_conf_path = "/data/media/0/Android/Manjusaka/屏幕监听/Manjusaka_Monitor.conf";
+std::string Manjusaka_conf_path = "./_纯白恋歌.cblg";
 void check_screen(std::string Set_Time, std::string Creen_script, std::string Screen_script, std::string Screen_switch) {
     auto check = [&]() {
         if (Screen_switch != "Y") return; // 当 Screen_switch=N 时，退出函数
