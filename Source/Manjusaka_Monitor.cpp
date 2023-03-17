@@ -119,16 +119,11 @@ int main() {
         }
         fconf.close();
     }
-
-    system(("chmod 755 " + Manjusaka_conf_path).c_str());
-
+    system(("chmod 777 " + Manjusaka_conf_path).c_str());
     std::thread t(check_screen, Set_Time, Creen_script, Screen_script, Screen_switch);
     std::thread t2(check_battery, Set_Time_battery, Charge_script, Poweroff_script, battery_switch); // 添加电池检测线程
-
     std::this_thread::sleep_for(std::chrono::seconds(10));
-
     t.join();
     t2.join();
-
     return 0;
 }
